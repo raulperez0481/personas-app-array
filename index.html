@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/d949a75390.js" crossorigin="anonymous"></script>
+    <style>
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container{
+        width: 80%;
+        padding: 1rem;
+        border:1px solid black;
+      }
+
+      h1{
+        text-align: center;
+      }
+
+      form{
+        position:absolute;
+        right:10px;
+        top:10px;
+        background-color: rgb(197, 197, 197);
+        width: 400px;
+        padding: 1rem 3rem;
+        border-radius: 2rem;
+      }
+
+      form * {
+        width: 100%;
+        display: block;
+        padding: 1rem 2.5rem;
+      }
+
+      form button{
+        cursor: pointer;
+      }
+
+      form input{
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 2.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        margin-bottom: 1rem;
+        font-family: inherit;
+      }
+
+      form input:focus {
+        outline: 3px solid #9999FF;
+        background: #fff;
+        color: #000;
+      }
+
+      #error-message{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        min-height: 200px;
+        background: rgb(189, 19, 19);
+        color: #fff;
+        padding: 1rem;
+        line-height: 2rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #error-message #close-button{
+        position: absolute;
+        right: 10px;
+        top:10px;
+        cursor: pointer;
+      } 
+
+      #peopleList{
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      #peopleList div{
+        width: 48%;
+        background:#9999FF;
+        text-align: center;
+        color: #fff;
+        padding: 1rem 0;
+        border: 2px solid #fff;
+        font-weight: bold;
+      }
+
+      #peopleList i{
+        width: 2%;
+        background:#9999FF;
+        border: 2px solid #fff;
+        text-align: center;
+        line-height: 250%;
+        cursor: pointer;
+      }
+
+      
+       
+      
+
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Listado de personas</h1>
+    <div id="peopleList"></div>
+    <div class="errorDiv"></div>
+    <form id="personForm">
+      
+        <input type="text" id="nameInput" placeholder="Ingresa el nombre">
+        
+        <input type="text" id="ageInput"  placeholder="Ingresa la edad">
+        
+        <button type="submit" id="addPersonButton">Agregar Persona</button>
+    </form>
+  </div>
+  
+    
+
+
+      <script>
+        const personForm = document.querySelector('#personForm');
+        const nameInput = document.querySelector('#nameInput');
+        const ageInput = document.querySelector('#ageInput');
+        const addPersonButton = document.querySelector('#addPersonButton');
+        const peopleList = document.querySelector('#peopleList');
+        const errorSection = document.querySelector('.errorDiv');
+
+        let isEditing = false;
+        let index = 0;
+
+
+const people = [];
+
+function addPerson(event) {
+console.log("valor de index en addPerson")
+console.log(index)
+  event.preventDefault();
+  console.log(isEditing)
+  if (isEditing) {
+    actualizarPersona();
+    isEditing = false;
+    document.querySelector("form").reset();
+    document.querySelector("button[type='submit']").innerText = "Agregar persona";
+    return;
+  }
+  
+  const name = nameInput.value.trim();
+  const age = parseInt(ageInput.value.trim());
+  
+  try {
+    if (!name || isNaN(age)) {
+      throw new Error('Ingrese un nombre y una edad válida');
+    }
+    
+    const person = {name, age};
+    people.push(person);
+    
+    nameInput.value = '';
+    ageInput.value = '';
+    
+    displayPeople();
+  } 
+  catch (error) {
+    console.error(error);
+    console.log(error);
+    showError(error);
+  }
+}
+
+function displayPeople() {
+  peopleList.innerHTML = '';
+  
+  people.forEach((person, index) => {
+
+    const divName = document.createElement('div');
+    divName.textContent = person.name;
+
+    const divAge = document.createElement('div');
+    divAge.textContent = person.age;
+
+    const editIcon = document.createElement('i');
+    editIcon.classList.add('fas', 'fa-edit', 'edit-icon');
+    
+    const deleteIcon = document.createElement('i');
+    deleteIcon.classList.add('fas', 'fa-trash-alt', 'delete-icon');
+
+   
+    deleteIcon.addEventListener('click', () => deletePerson(index));
+    editIcon.addEventListener('click', () => editPerson(index));
+       
+    peopleList.appendChild(divName);
+    peopleList.appendChild(divAge);
+    peopleList.appendChild(editIcon);
+    peopleList.appendChild(deleteIcon);
+    
+  });
+}
+
+function showError(message) {
+  const errorMessage = document.createElement("div");
+  errorMessage.id = "error-message";
+  errorMessage.innerHTML = '<div><i class="fas fa-exclamation-triangle"></i><span>' + message + '</span></div><i id="close-button" class="fas fa-times-circle fa-lg"></i>';
+  document.body.appendChild(errorMessage);
+  
+  const closeButton = document.getElementById("close-button");
+  closeButton.addEventListener("click", function() {
+    document.body.removeChild(errorMessage);
+  });
+}
+
+personForm.addEventListener('submit', addPerson);
+
+
+function deletePerson(index) {
+    console.log("Entra en la función delete")
+    people.splice(index, 1);
+    displayPeople();
+}
+
+function editPerson(editIndex) {
+  console.log("entro en editar persona y le index es:")
+  console.log(index)
+    isEditing = true;
+    index = editIndex;
+    const person = people[index];
+    nameInput.value = person.name;
+    ageInput.value = person.age;
+    console.log("valor de index antes de cambiar boton")
+    console.log(index)
+    document.querySelector("button[type='submit']").innerText = "Guardar cambios";
+    //alert(`Editando a ${person.name}, ${person.age} años.`);
+}
+
+
+function actualizarPersona() {
+  console.log("entro en actualizar persona y le index es:")
+  console.log(index)
+  // Actualizar la persona en el arreglo
+  const name = document.querySelector('#nameInput').value;
+  const age = document.querySelector('#ageInput').value;
+  const person = { name, age};
+  people[index] = person;
+
+  // Actualizar la tabla y resetear el formulario
+  displayPeople();
+  document.querySelector("form").reset();
+}
+      </script>
+</body>
+</html>
