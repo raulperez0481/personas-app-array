@@ -5,119 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://kit.fontawesome.com/d949a75390.js" crossorigin="anonymous"></script>
-    <style>
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
-
-      .container{
-        width: 80%;
-        padding: 1rem;
-        border:1px solid black;
-      }
-
-      h1{
-        text-align: center;
-      }
-
-      form{
-        position:absolute;
-        right:10px;
-        top:10px;
-        background-color: rgb(197, 197, 197);
-        width: 400px;
-        padding: 1rem 3rem;
-        border-radius: 2rem;
-      }
-
-      form * {
-        width: 100%;
-        display: block;
-        padding: 1rem 2.5rem;
-      }
-
-      form button{
-        cursor: pointer;
-      }
-
-      form input{
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 2.5rem;
-        background: rgba(255, 255, 255, 0.1);
-        margin-bottom: 1rem;
-        font-family: inherit;
-      }
-
-      form input:focus {
-        outline: 3px solid #9999FF;
-        background: #fff;
-        color: #000;
-      }
-
-      #error-message{
-        position: absolute;
-        top:50%;
-        left:50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        min-height: 200px;
-        background: rgb(189, 19, 19);
-        color: #fff;
-        padding: 1rem;
-        line-height: 2rem;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #error-message #close-button{
-        position: absolute;
-        right: 10px;
-        top:10px;
-        cursor: pointer;
-      } 
-
-      #peopleList{
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      #peopleList div{
-        width: 48%;
-        background:#9999FF;
-        text-align: center;
-        color: #fff;
-        padding: 1rem 0;
-        border: 2px solid #fff;
-        font-weight: bold;
-      }
-
-      #peopleList i{
-        width: 2%;
-        background:#9999FF;
-        border: 2px solid #fff;
-        text-align: center;
-        line-height: 250%;
-        cursor: pointer;
-      }
-
-      
-       
-      
-
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -125,7 +14,6 @@
     <div id="peopleList"></div>
     <div class="errorDiv"></div>
     <form id="personForm">
-      
         <input type="text" id="nameInput" placeholder="Ingresa el nombre">
         
         <input type="text" id="ageInput"  placeholder="Ingresa la edad">
